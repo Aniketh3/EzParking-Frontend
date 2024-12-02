@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f8ff;
+            padding: 20px;
+            margin: 0;
+            background: linear-gradient(45deg, #f0f8ff, #d3e0ea) 10px 10px,
+                linear-gradient(-45deg, #f0f8ff, #d3e0ea) 10px 10px;
+            background-size: 20px 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #4a86e8;
+        }
+
+        .parking-lot {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .parking-spot {
+            width: 100px;
+            height: 100px;
+            background-color: #129ced;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .parking-spot:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .parking-spot.selected {
+            background-color: #12e574;
+            color: #fff;
+        }
+
+        .booking-form {
+            width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #4a86e8;
+        }
+
+        .booking-form input[type="text"],
+        .booking-form input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .booking-form input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            /* background-color: #4a86e8; */
+            background-color: #e74c3c;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .bil-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bil-container button {
+            width: 340px;
+            padding: 8px;
+            background-color: #4a86e8;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .bill {
+            width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .bill h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #4a86e8;
+        }
+
+        .bill p {
+            margin-bottom: 5px;
+        }
+
+        .parking-spot.occupied {
+            background-color: #ff0000;
+            color: #fff;
+        }
+    </style>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Lot Booking - Slot Selection</title>
+</head>
+
+<body onload="getBookedSlots()">
+    <h1>Parking Lot Booking</h1>
+    <div class="parking-lot">
+        <div class="parking-spot" data-spot="K1">K1</div>
+        <div class="parking-spot" data-spot="K2">K2</div>
+        <div class="parking-spot" data-spot="K3">K3</div>
+        <div class="parking-spot" data-spot="K4">K4</div>
+        <div class="parking-spot" data-spot="K5">K5</div>
+        <div class="parking-spot" data-spot="K6">K6</div>
+        <div class="parking-spot" data-spot="K7">K7</div>
+        <div class="parking-spot" data-spot="K8">K8</div>
+        <div class="parking-spot" data-spot="K9">K9</div>
+        <div class="parking-spot" data-spot="K10">K10</div>
+        <div class="parking-spot" data-spot="K11">K11</div>
+        <div class="parking-spot" data-spot="K12">K12</div>
+        <div class="parking-spot" data-spot="K13">K13</div>
+        <div class="parking-spot" data-spot="K14">K14</div>
+        <div class="parking-spot" data-spot="K15">K15</div>
+        <div class="parking-spot" data-spot="K16">K16</div>
+        <div class="parking-spot" data-spot="K17">K17</div>
+        <div class="parking-spot" data-spot="K18">K18</div>
+
+    </div>
+    <div class="booking-form">
+        <form id="bookingForm">
+            <label for="name">Vehicle Number</label>
+            <input type="text" id="vehicle" name="name" required>
+
+            <!-- <label for="email">Email:</label>
+      <input type="text" id="email" name="email" required> -->
+
+            <label for="selectedSpot">Selected Spot:</label>
+            <input type="text" id="selectedSpot" name="selectedSpot" readonly>
+
+            <input type="submit" value="Book Parking">
+        </form>
+    </div>
+    <div class="bil-container">
+        <div class="bill" id="bill"></div>
+        <button onclick="cancelslot()">Remove</button>
+    </div>
+    <script>
+        const parkingSpots = document.querySelectorAll('.parking-spot');
+        const bookingForm = document.getElementById('bookingForm');
+        const selectedSpotInput = document.getElementById('selectedSpot');
+        const billContainer = document.getElementById('bill');
+
+        let bookedSpot = null;
+
+        parkingSpots.forEach(parkingSpot => {
+            parkingSpot.addEventListener('click', () => {
+                if (parkingSpot.classList.contains('selected')) {
+                    bookedSpot.classList.remove('selected')
+                } else {
+                    if (bookedSpot !== null) {
+                        bookedSpot.classList.remove('selected');
+                    }
+                    const selectedSpot = parkingSpot.dataset.spot;
+                    selectedSpotInput.value = selectedSpot;
+                    parkingSpot.classList.add('selected');
+                    bookedSpot = parkingSpot;
+                }
+            });
+        });
+
+        bookingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const spot = document.getElementById("selectedSpot").value;
+            const vehicle = document.getElementById("vehicle").value;
+            const email = localStorage.getItem("email");
+
+            const numFormat = "^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$";
+
+            if (!vehicle.match(numFormat)) {
+                alert("Please Enter Valid Vehicle Number");
+                return;
+            }
+
+            const data = {
+                email: email,
+                vehicle: vehicle,
+                selectedSpot: spot
+            }
+            try {
+                const response = await fetch("http://localhost:8080/api/bookings11", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                console.log(response.status);
+                if (response.status === 200) {
+                    getBookedSlots();
+                } else if (response.status === 500) {
+                    alert("You can book only one slot")
+                } else {
+                    alert("Something went wrong")
+                }
+            } catch (e) {
+                console.log(e);
+                alert('Error during booking. Please try again.');
+            }
+        });
+
+        function updateParkingSpots(bookedSlots) {
+
+            const email = localStorage.getItem("email")
+            var flag = false;
+            parkingSpots.forEach(parkingSpot => {
+                const isBooked = bookedSlots.some(bookedSlot => bookedSlot.id === parkingSpot.dataset.spot);
+                if (isBooked) {
+                    parkingSpot.classList.remove('selected');
+                    parkingSpot.classList.add('occupied');
+                }
+            });
+
+            bookedSlots.forEach((bs) => {
+                if (bs.email === email) {
+                    const billHTML = `
+                    <h2>Booking Details</h2>
+                    <p><strong>Vehicle:</strong> ${bs.vehicle}</p>
+                    <p><strong>Email:</strong> ${bs.email}</p>
+                    <p><strong>Selected Spot:</strong> ${bs.id}</p>
+                `;
+                    billContainer.innerHTML = billHTML;
+                    flag = true;
+                }
+            })
+            if (!flag) {
+                const billHTML = "";
+                billContainer.innerHTML = billHTML;
+            }
+
+        }
+
+
+        async function getBookedSlots() {
+            try {
+                const response = await fetch("http://localhost:8080/api/bookings/all11");
+                const data = await response.json();
+                console.log(data);
+
+
+                updateParkingSpots(data);
+            } catch (error) {
+                console.error('Error fetching booked slots:', error);
+            }
+        }
+
+        async function cancelslot() {
+            // e.preventDefault()
+            const email = localStorage.getItem("email")
+            console.log(email);
+            try {
+                const response = await fetch("http://localhost:8080/api/bookings/remove11", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email }),
+                })
+
+                if (response.status === 200) {
+                    getBookedSlots();
+                    alert("Succesfully removed. Refresh the page once");
+                } else {
+                    alert("Something went wrong ");
+                }
+            }
+            catch (e) {
+                console.log(e)
+            }
+        }
+
+    </script>
+</body>
+
+</html>

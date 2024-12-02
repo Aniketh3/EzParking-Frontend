@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout</title>
+    <style>
+        /* Add your existing styles */
+        .container {
+            display: grid;
+            grid-gap: 10px;
+            margin: 20px;
+        }
+
+        .m-block {
+            background-color: rgb(186, 255, 185);
+            padding: 20px;
+            width: 212px;
+            height: 1075px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 40px;
+            position: absolute;
+        }
+
+        .s-block {
+            background-color: rgb(255, 219, 219);
+            padding: 20px;
+            width: 1170px;
+            height: 275px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 40px;
+            position: relative;
+            left: 27%;
+        }
+
+        .n-block {
+            background-color: rgb(201, 235, 255);
+            padding: 20px;
+            width: 1980px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 40px;
+            position: absolute;
+            left: 11%;
+            top: 73%;
+        }
+
+        .ground {
+            background-color: rgb(254, 231, 196);
+            padding: 20px;
+            width: 212px;
+            height: 770px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 40px;
+            position: absolute;
+            left: 90%;
+        }
+
+        .park1 {
+            background-color: slategray;
+            padding: 20px;
+            width: 40px;
+            height: 275px;
+            position: absolute;
+            left: 15%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park2 {
+            background-color: slategray;
+            padding: 20px;
+            width: 40px;
+            height: 275px;
+            position: absolute;
+            left: 15%;
+            bottom: 35%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park3 {
+            background-color: slategray;
+            padding: 20px;
+            width: 40px;
+            height: 275px;
+            position: absolute;
+            left: 22%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park4 {
+            background-color: slategray;
+            padding: 20px;
+            width: 40px;
+            height: 275px;
+            position: absolute;
+            left: 78%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park5 {
+            background-color: slategray;
+            padding: 20px;
+            width: 475px;
+            height: 40px;
+            position: absolute;
+            left: 27.5%;
+            bottom: 60%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park6 {
+            background-color: slategray;
+            padding: 20px;
+            width: 475px;
+            height: 40px;
+            position: absolute;
+            left: 54.7%;
+            bottom: 60%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park7 {
+            background-color: slategray;
+            padding: 20px;
+            width: 475px;
+            height: 40px;
+            position: absolute;
+            left: 27.5%;
+            bottom: 47%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park8 {
+            background-color: slategray;
+            padding: 20px;
+            width: 475px;
+            height: 40px;
+            position: absolute;
+            left: 54.7%;
+            bottom: 47%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park9 {
+            background-color: slategray;
+            padding: 20px;
+            width: 475px;
+            height: 40px;
+            position: absolute;
+            left: 27.5%;
+            bottom: 34%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park0 {
+            background-color: slategray;
+            padding: 20px;
+            width: 475px;
+            height: 40px;
+            position: absolute;
+            left: 54.7%;
+            bottom: 34%;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .park01 {
+            background-color: slategray;
+            padding: 20px;
+            position: absolute;
+            width: 40px;
+            height: 695px;
+            left: 85%;
+            display: block;
+            cursor: pointer;
+        }
+
+        .park0 a,
+        .park01 a,
+        .park1 a,
+        .park2 a,
+        .park3 a,
+        .park4 a,
+        .park5 a,
+        .park6 a,
+        .park7 a,
+        .park8 a,
+        .park9 a {
+            display: block;
+            text-decoration: none;
+            color: slategray;
+        }
+
+        .logout h2 {
+            background-color: rgb(255, 0, 0);
+            color: #fff;
+            position: absolute;
+            left: 92.5%;
+            top: 82%;
+            font-size: 40px;
+            text-decoration: underline;
+            padding: 10px;
+        }
+
+        .logout h2:hover {
+            background-color: #c0392b;
+        }
+
+        @keyframes scrollRightToLeft {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            /* Adjust the opacity as needed */
+            z-index: 9998;
+            /* Ensure it appears above other elements */
+        }
+
+        .admin-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-weight: bold;
+            padding: 10px;
+            font-size: 70px;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: scrollRightToLeft 10s linear infinite;
+            z-index: 9999;
+            /* Ensure it appears above other elements */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="s-block">S BLOCK</div>
+        <div class="m-block">M BLOCK</div>
+        <div class="n-block">N BLOCK</div>
+        <div class="ground">GROUND</div>
+        <div class="park1"><a  href="slots1.html"></a>A</div>
+        <div class="park2"><a  href="slots2.html"></a>B</div>
+        <div class="park3"><a  href="slots3.html"></a>C</div>
+        <div class="park4"><a  href="slots4.html"></a>D</div>
+        <div class="park5"><a  href="slots5.html"></a>E</div>
+        <div class="park6"><a  href="slots6.html"></a>F</div>
+        <div class="park7"><a  href="slots7.html"></a>G</div>
+        <div class="park8"><a  href="slots8.html"></a>H</div>
+        <div class="park9"><a  href="slots9.html"></a>I</div>
+        <div class="park0"><a  href="slots10.html"></a>J</div>
+        <div class="park01"><a  href="slots11.html"></a>K</div>
+        <div class="overlay" id="overlay"></div>
+        <div id="adminMessage" class="admin-message"></div>
+    </div>
+    <div class="logout"><a target="_blank" href="user2.html">
+            <h2>LogOut</h2>
+        </a></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var parkBoxes = document.querySelectorAll('.park1, .park2, .park3, .park4, .park5, .park6, .park7, .park8, .park9, .park0, .park01');
+
+            parkBoxes.forEach(function (box) {
+                box.addEventListener('click', function () {
+                    box.style.transition = 'transform 0.5s ease-out, background-color 0.5s ease-out';
+                    box.style.transform = 'scale(0.5)';
+                    box.style.backgroundColor = 'white';
+
+                    // Disable links
+                    parkBoxes.forEach(function (linkBox) {
+                        linkBox.style.pointerEvents = 'none';
+                    });
+
+                    // Display overlay
+                    var overlay = document.getElementById('overlay');
+                    overlay.style.display = 'block';
+
+                    setTimeout(function () {
+                        window.location.href = box.querySelector('a').href;
+                    }, 500);
+                });
+            });
+
+            var adminMessage = localStorage.getItem('adminMessage');
+
+            if (adminMessage) {
+                var adminMessageContainer = document.getElementById('adminMessage');
+                adminMessageContainer.textContent = "Admin Message: " + adminMessage;
+                adminMessageContainer.style.display = 'block';
+            } else {
+                // No admin message, hide overlay and enable links
+                var overlay = document.getElementById('overlay');
+                overlay.style.display = 'none';
+
+                parkBoxes.forEach(function (linkBox) {
+                    linkBox.style.pointerEvents = 'auto';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

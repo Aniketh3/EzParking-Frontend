@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('Background.jpeg');
+            background-size: 80% 100%;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        input[type="email"] {
+            width: 96%;
+            height: 50px;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #fff;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-size: 25px;
+        }
+
+        ::placeholder {
+            color: #fff;
+            font-size: 25px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 0 auto;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 25px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #vehicle-history {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .vehicle-entry {
+            padding: 10px;
+            border-bottom: 1px solid #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .vehicle-entry:last-child {
+            border-bottom: none;
+        }
+
+        .vehicle-entry p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>User Vehicle History</h1>
+        <label for="email"><h2>Email:</h2></label>
+        <div>
+            <input type="email" id="email" name="email" placeholder="Enter your email" readonly>
+            <button onclick="getUserVehicleHistory()">Get History</button>
+        </div>
+        <div id="vehicle-history"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const emailInput = document.getElementById('email');
+            const storedEmail = localStorage.getItem('email');
+            if (storedEmail) {
+                emailInput.value = storedEmail;
+            }
+        });
+
+        async function getUserVehicleHistory() {
+            const email = document.getElementById('email').value;
+            try {
+                const response = await fetch(`http://localhost:8080/api/user/vehicle/history?email=${encodeURIComponent(email)}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user vehicle history');
+                }
+                const data = await response.json();
+                console.log(data);
+                const historyDiv = document.getElementById('vehicle-history');
+                historyDiv.innerHTML = '';
+                if (data.length > 0) {
+                    data.forEach(entry => {
+                        const entryDiv = document.createElement('div');
+                        entryDiv.classList.add('vehicle-entry');
+                        entryDiv.innerHTML = `
+                            <h3><strong>ID:</strong> ${entry.id}</h3>
+                            <h3><strong>Vehicle:</strong> ${entry.vehicle}</h3>
+                            <h3><strong>Email:</strong> ${entry.email}</h3>
+                            <h3><strong>Date:</strong> ${entry.date}</h3>
+                            <h3><strong>Time:</strong> ${entry.time}</h3>
+                        `;
+                        historyDiv.appendChild(entryDiv);
+                    });
+                } else {
+                    historyDiv.textContent = 'No vehicle history found for this email.';
+                }
+            } catch (error) {
+                console.error('Error fetching vehicle history:', error);
+                const historyDiv = document.getElementById('vehicle-history');
+                historyDiv.textContent = 'Failed to fetch vehicle history. Please try again later.';
+            }
+        }
+    </script>
+</body>
+
+</html>
